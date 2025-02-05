@@ -1,0 +1,15 @@
+---
+- name: Capture and output facts
+  hosts: node1
+  gather_facts: false
+  tasks:
+    - name: Collect only facts returned by facter
+      ansible.builtin.setup:
+        filter:
+          - 'ansible_os_family'
+      register: setup_output
+
+    - name: Output variable content
+      ansible.builtin.debug:
+        msg: "{{ ansible_os_family }}"
+

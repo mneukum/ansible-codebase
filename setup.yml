@@ -1,0 +1,16 @@
+---
+- name: Capture and output facts
+  hosts: node1
+  gather_facts: false
+  tasks:
+    - name: Collect only facts returned by facter
+      ansible.builtin.setup:
+        filter:
+          - 'ansible_eth0'
+          - 'ansible_*_mb'
+      register: setup_output
+
+    - name: Output variable content
+      ansible.builtin.debug:
+        msg: "{{ setup_output }}"
+

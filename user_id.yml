@@ -1,0 +1,19 @@
+---
+- name: Get user ID play
+  hosts: node1
+  vars:
+    myuser_list:
+      - "prod_user"
+      - "dev_user"
+      - "qa_user"
+  tasks:
+    - name: Get info for {{ myuser }}
+      ansible.builtin.getent:
+        database: passwd
+        # key: "{{ item }}"
+        # loop: "{{ myuser_list }}"
+
+    - name: Output info for {{ myuser }}
+      ansible.builtin.debug:
+        msg: "{{ item }} uid: {{ getent_passwd[item][1] }}"
+      loop: "{{ myuser_list }}"
